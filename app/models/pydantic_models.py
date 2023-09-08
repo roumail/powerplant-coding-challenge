@@ -1,8 +1,5 @@
 from pydantic import BaseModel, Field, validator
 
-class HealthResponse(BaseModel):
-    status: bool
-
 class Fuel(BaseModel):
     gas: float = Field(..., alias="gas(euro/MWh)")
     kerosine: float = Field(..., alias="kerosine(euro/MWh)")
@@ -15,6 +12,7 @@ class Fuel(BaseModel):
             raise ValueError("Gas price must be non-negative")
         return value
 
+
 class PowerPlant(BaseModel):
     name: str
     type: str
@@ -22,10 +20,12 @@ class PowerPlant(BaseModel):
     pmin: int
     pmax: int
 
+
 class Payload(BaseModel):
     load: int
     fuels: Fuel
     powerplants: list[PowerPlant]
+
 
 class ResponsePowerPlant(BaseModel):
     name: str

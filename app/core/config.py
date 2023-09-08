@@ -4,6 +4,7 @@ import logging
 from loguru import logger
 from app.core.logging import InterceptHandler
 
+
 class Settings(BaseSettings):
     API_PREFIX: str = "/api"
     VERSION: str = "0.1.0"
@@ -13,6 +14,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+
 
 settings = Settings()
 
