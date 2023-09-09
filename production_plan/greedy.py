@@ -1,15 +1,4 @@
-from app.models.pydantic_models import ResponsePowerPlant, Payload
-
-
-def dummy_response(payload: Payload) -> list[ResponsePowerPlant]:
-    return [
-        ResponsePowerPlant(name="windpark1", p=90.0),
-        ResponsePowerPlant(name="windpark2", p=21.6),
-        ResponsePowerPlant(name="gasfiredbig1", p=460.0),
-        ResponsePowerPlant(name="gasfiredbig2", p=338.4),
-        ResponsePowerPlant(name="gasfiredsomewhatsmaller", p=0.0),
-        ResponsePowerPlant(name="tj1", p=0.0),
-    ]
+from app.models.pydantic_models import Payload, ResponsePowerPlant
 
 
 def calculate_production_plan(
@@ -21,6 +10,17 @@ def calculate_production_plan(
         return allocate_power(payload.load, payload.fuels, payload.powerplants)
     else:
         raise ValueError("Invalid method specified")
+
+
+def dummy_response(payload: Payload) -> list[ResponsePowerPlant]:
+    return [
+        ResponsePowerPlant(name="windpark1", p=90.0),
+        ResponsePowerPlant(name="windpark2", p=21.6),
+        ResponsePowerPlant(name="gasfiredbig1", p=460.0),
+        ResponsePowerPlant(name="gasfiredbig2", p=338.4),
+        ResponsePowerPlant(name="gasfiredsomewhatsmaller", p=0.0),
+        ResponsePowerPlant(name="tj1", p=0.0),
+    ]
 
 
 def allocate_power(
