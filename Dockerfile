@@ -5,11 +5,12 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 COPY poetry.lock pyproject.toml ./
+COPY ./unit_commitment/ ./unit_commitment/
 RUN pip install --upgrade pip && \
     pip install poetry && \
-    # poetry config virtualenvs.create false  && \ 
-    poetry install --no-dev
+    poetry config virtualenvs.create false  && \ 
+    poetry install
 
 EXPOSE 8888
-CMD ["poetry", "run", "production-plan-api"]
-# ENTRYPOINT [ ]
+ENV PYTHONPATH "${PYTHONPATH}:/app"
+CMD uvicorn unit_commitment.app:app --reload --host 0.0.0.0 --port 8888
