@@ -1,8 +1,8 @@
 # conftest.py
 
 import pytest
-from app.models.pydantic_models import Payload, Fuel, PowerPlant
 
+from app.models.pydantic_models import Fuel, Payload, PowerPlant
 
 powerplant_dicts = [
     {
@@ -44,9 +44,24 @@ powerplant_dicts = [
 ]
 
 payload_params = [
-    {"load": 480, "fuels": Fuel(gas=13.4, kerosine=50.8, co2=20, wind=60)},
-    {"load": 480, "fuels": Fuel(gas=13.4, kerosine=50.8, co2=20, wind=0)},
-    {"load": 910, "fuels": Fuel(gas=13.4, kerosine=50.8, co2=20, wind=60)},
+    {
+        "load": 480,
+        "fuels": Fuel.from_dict(
+            **{"gas": 13.4, "kerosine": 50.8, "co2": 20, "wind": 60}
+        ),
+    },
+    {
+        "load": 480,
+        "fuels": Fuel.from_dict(
+            **{"gas": 13.4, "kerosine": 50.8, "co2": 20, "wind": 0}
+        ),
+    },
+    {
+        "load": 910,
+        "fuels": Fuel.from_dict(
+            **{"gas": 13.4, "kerosine": 50.8, "co2": 20, "wind": 60}
+        ),
+    },
 ]
 
 
