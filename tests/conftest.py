@@ -2,7 +2,7 @@
 
 import pytest
 
-from app.models.pydantic_models import Fuel, Payload, PowerPlant
+from unit_commitment.pydantic_models import Fuel, Payload, PowerPlant
 
 powerplant_dicts = [
     {

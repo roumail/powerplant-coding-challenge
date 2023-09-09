@@ -10,7 +10,7 @@ from unit_commitment.core.logging import InterceptHandler
 
 
 class Settings(BaseSettings):
-    API_PREFIX: str = "/api"
+    API_PREFIX: str = "/api/v1"
     VERSION: str = PACKAGE_VERSION
     DEBUG: bool = Field(False)
     PROJECT_NAME: str = Field(PACKAGE_NAME)

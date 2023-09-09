@@ -2,10 +2,10 @@ import typing as tp
 
 import pytest
 
-from production_plan.greedy import calculate_production_plan
+from unit_commitment.production_plan.greedy import calculate_production_plan
 
 if tp.TYPE_CHECKING:
-    from app.models.pydantic_models import Payload, ResponsePowerPlant
+    from unit_commitment.pydantic_models import Payload, ResponsePowerPlant
 
 
 def validate_greedy_output(output: list["ResponsePowerPlant"], payload: "Payload"):

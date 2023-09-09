@@ -5,7 +5,7 @@ description = "Deploying a unit commitment solution via fastapi"
 authors = ["Rohail Taimour <rohail.taimour@gmail.com>"]
 
 [tool.poetry.scripts]
-production-plan-api = 'unit_commitment.main:main'
+production-plan-api = 'unit_commitment.run_app:main'
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -18,7 +18,6 @@ python-dotenv = "^1.0.0"
 pydantic-settings = "^2.0.3"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.2"
 black = "^23.3.0"
 ipdb = "^0.13.0"
 isort = "^5.12.0"
@@ -48,3 +47,11 @@ exclude = '''
   |Jenkinfile
 )/
 '''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88

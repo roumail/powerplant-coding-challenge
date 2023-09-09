@@ -1,10 +1,13 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from app.main import app
-from app.models.pydantic_models import (Payload, ResponsePowerPlant,
-                                        ResponsePowerPlantList)
-from production_plan.greedy import dummy_response
+from unit_commitment.app import app
+from unit_commitment.production_plan.greedy import dummy_response
+from unit_commitment.pydantic_models import (
+    Payload,
+    ResponsePowerPlant,
+    ResponsePowerPlantList,
+)
 
 ROUTE_PREFIX = "/api/v1"
 client = TestClient(app)
