@@ -3,19 +3,19 @@ import sys
 
 from loguru import logger
 from pydantic import Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from app import PACKAGE_NAME, __version__
 from app.core.logging import InterceptHandler
 
 
 class Settings(BaseSettings):
     API_PREFIX: str = "/api"
-    VERSION: str = "0.1.0"
-    DEBUG: bool = Field(False, env="DEBUG")
-    PROJECT_NAME: str = Field("unit_commitment", env="PROJECT_NAME")
+    VERSION: str = __version__
+    DEBUG: bool = Field(False)
+    PROJECT_NAME: str = Field(PACKAGE_NAME)
 
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 
 settings = Settings()
