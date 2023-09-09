@@ -45,3 +45,7 @@ class Payload(BaseModel):
 class ResponsePowerPlant(BaseModel):
     name: str
     p: float
+
+
+class ResponsePowerPlantList(BaseModel):
+    items: list[ResponsePowerPlant]
