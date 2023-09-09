@@ -5,7 +5,7 @@ description = "Deploying a unit commitment solution via fastapi"
 authors = ["Rohail Taimour <rohail.taimour@gmail.com>"]
 
 [tool.poetry.scripts]
-production-plan-api = 'unit_commitment.main:app'
+production-plan-api = 'unit_commitment.main:main'
 
 [tool.poetry.dependencies]
 python = "^3.10"
