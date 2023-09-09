@@ -4,8 +4,6 @@ services:
   app:
     build: 
       context: .
-      args:
-        DEV: "true"
     ports:
       - "8888:8888"
     env_file:

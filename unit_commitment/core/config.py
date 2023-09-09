@@ -5,13 +5,13 @@ from loguru import logger
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from app import PACKAGE_NAME, __version__
-from app.core.logging import InterceptHandler
+from unit_commitment import PACKAGE_NAME, PACKAGE_VERSION
+from unit_commitment.core.logging import InterceptHandler
 
 
 class Settings(BaseSettings):
     API_PREFIX: str = "/api"
-    VERSION: str = __version__
+    VERSION: str = PACKAGE_VERSION
     DEBUG: bool = Field(False)
     PROJECT_NAME: str = Field(PACKAGE_NAME)
 

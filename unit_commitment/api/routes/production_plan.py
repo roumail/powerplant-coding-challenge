@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
-from app.models.pydantic_models import ResponsePowerPlant, Payload
-from production_plan.greedy import calculate_production_plan
+
+from unit_commitment.production_plan.greedy import calculate_production_plan
+from unit_commitment.pydantic_models import Payload, ResponsePowerPlant
 
 router = APIRouter()
 

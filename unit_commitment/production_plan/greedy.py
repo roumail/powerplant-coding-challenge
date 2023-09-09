@@ -1,4 +1,4 @@
-from app.models.pydantic_models import Payload, ResponsePowerPlant
+from unit_commitment.pydantic_models import Payload, ResponsePowerPlant
 
 
 def calculate_production_plan(
@@ -7,6 +7,7 @@ def calculate_production_plan(
     if method == "dummy":
         return dummy_response(payload)
     elif method == "greedy":
+        breakpoint()
         return allocate_power(payload.load, payload.fuels, payload.powerplants)
     else:
         raise ValueError("Invalid method specified")

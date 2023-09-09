@@ -3,10 +3,9 @@ name = "unit_commitment"
 version = "0.1.0"
 description = "Deploying a unit commitment solution via fastapi"
 authors = ["Rohail Taimour <rohail.taimour@gmail.com>"]
-packages = [
-    { include = "app" },
-    { include = "production_plan" },
-]   
+
+[tool.poetry.scripts]
+production-plan-api = 'unit_commitment.main:app'
 
 [tool.poetry.dependencies]
 python = "^3.10"

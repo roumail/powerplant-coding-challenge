@@ -4,13 +4,16 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
-COPY poetry.lock pyproject.toml ./
+COPY pyproject.toml ./
 RUN pip install --upgrade pip && \
     pip install poetry && \
     poetry config virtualenvs.create false 
 
-ARG DEV=false
-RUN if [ "$DEV" = "true" ] ; then poetry install --with dev ; else poetry install --only main ; fi
+# Build the package
+RUN poetry build
+
+# Install the package using pip
+RUN pip install dist/*.whl
 
 COPY ./app/ ./
 
