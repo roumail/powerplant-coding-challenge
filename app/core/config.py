@@ -2,7 +2,8 @@ import logging
 import sys
 
 from loguru import logger
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 from app.core.logging import InterceptHandler
 
