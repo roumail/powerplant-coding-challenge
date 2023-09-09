@@ -2,7 +2,11 @@
 name = "unit_commitment"
 version = "0.1.0"
 description = "Deploying a unit commitment solution via fastapi"
-authors = ["Rohail Taimour (rohail.taimour@gmail.com)"]
+authors = ["Rohail Taimour <rohail.taimour@gmail.com>"]
+packages = [
+    { include = "app" },
+    { include = "production_plan" },
+]   
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -20,6 +24,7 @@ ipdb = "^0.13.0"
 isort = "^5.12.0"
 pre-commit = "^3.4.0"
 flake8 = "^6.1.0"
+pytest-cov = "^4.1.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.3.1"

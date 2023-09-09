@@ -1,7 +1,9 @@
-from pydantic import BaseSettings, Field
-import sys
 import logging
+import sys
+
 from loguru import logger
+from pydantic import BaseSettings, Field
+
 from app.core.logging import InterceptHandler
 
 
@@ -10,7 +12,6 @@ class Settings(BaseSettings):
     VERSION: str = "0.1.0"
     DEBUG: bool = Field(False, env="DEBUG")
     PROJECT_NAME: str = Field("unit_commitment", env="PROJECT_NAME")
-    INPUT_EXAMPLE: str = Field("./examples/", env="INPUT_EXAMPLE")
 
     class Config:
         env_file = ".env"
