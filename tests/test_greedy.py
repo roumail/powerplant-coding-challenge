@@ -8,7 +8,7 @@ if tp.TYPE_CHECKING:
     from app.models.pydantic_models import Payload, ResponsePowerPlant
 
 
-def validate_greedy_output(output: list[ResponsePowerPlant], payload: Payload):
+def validate_greedy_output(output: list["ResponsePowerPlant"], payload: "Payload"):
     total_power = sum(plant["p"] for plant in output)
     assert total_power == payload.load  # Total power should match the load
 
@@ -19,6 +19,6 @@ def validate_greedy_output(output: list[ResponsePowerPlant], payload: Payload):
         assert plant["p"] <= original_plant.pmax  # Should be below pmax
 
 
-def test_greedy_algorithm(payload):
+def test_greedy_algorithm(payload: "Payload"):
     result = calculate_production_plan(payload, method="greedy")
     validate_greedy_output(result, payload)

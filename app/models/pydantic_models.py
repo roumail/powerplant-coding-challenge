@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class Fuel(BaseModel):
@@ -18,14 +18,14 @@ class Fuel(BaseModel):
             }
         )
 
-    @validator("gas")
+    @field_validator("gas")
     def validate_gas(cls, value):
         if value < 0:
             raise ValueError("Gas price must be non-negative")
         return value
 
-    class Config:
-        allow_population_by_field_name = True
+    class ConfigDict:
+        populate_by_name = True
 
 
 class PowerPlant(BaseModel):
