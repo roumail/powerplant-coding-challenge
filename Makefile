@@ -13,7 +13,7 @@ install: generate_dot_env
 	poetry install --with dev
 
 run:
-	PYTHONPATH=app/ poetry run uvicorn main:app --reload --host 0.0.0.0 --port 8888
+	production-plan-api
 
 deploy: generate_dot_env
 	docker-compose build

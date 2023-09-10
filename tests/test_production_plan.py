@@ -18,7 +18,9 @@ def test_production_plan(payload: Payload):
     payload_dict = payload.model_dump(by_alias=True)
 
     # Make the API call
-    response = client.post(f"{ROUTE_PREFIX}/productionplan", json=payload_dict)
+    response = client.post(
+        f"{ROUTE_PREFIX}/productionplan", params={"method": "dummy"}, json=payload_dict
+    )
 
     # Check the status code
     assert response.status_code == 200

@@ -18,8 +18,10 @@ def calculate_fuel_cost(plant: "PowerPlant", fuels: "Fuel"):
     return fuel_cost / plant.efficiency
 
 
-# The power produced by each powerplant has to be a multiple of 0.1 Mw and
-# the sum of the power produced by all the powerplants together should equal the load.
+def round_to_nearest_tenth(n):
+    return round(n * 10) / 10
+
+
 def allocate_power(
     load: int, fuels: "Fuel", powerplants: list["PowerPlant"]
 ) -> list[ResponsePowerPlant]:
@@ -40,20 +42,24 @@ def allocate_power(
             if remaining_load <= 0:
                 break
 
-    # Then, fulfill minimum requirements
+    # Allocate power based on sorted plants
     for plant in sorted_plants:
-        if plant.pmin > 0:
-            allocated_power[plant.name] = plant.pmin
-            remaining_load -= plant.pmin
-
-    # Finally, allocate remaining load
-    for plant in sorted_plants:
+        # If the remaining load is already fulfilled, break
         if remaining_load <= 0:
             break
 
-        current_allocation = allocated_power.get(plant.name, 0)
-        additional_power = min(plant.pmax - current_allocation, remaining_load)
+        # If the plant has a minimum power output requirement, check if it should be switched on
+        if plant.pmin > 0 and remaining_load >= plant.pmin:
+            allocated_power[plant.name] = plant.pmin
+            remaining_load -= plant.pmin
 
+        # If the plant is already in allocated_power, get the current allocation; otherwise, start from zero
+        current_allocation = allocated_power.get(plant.name, 0)
+
+        # Allocate additional power if needed
+        additional_power = min(plant.pmax - current_allocation, remaining_load)
+        # Round to multiple of 0.1
+        additional_power = round_to_nearest_tenth(additional_power)
         allocated_power[plant.name] = current_allocation + additional_power
         remaining_load -= additional_power
 
