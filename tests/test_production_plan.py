@@ -2,7 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from unit_commitment.app import app
-from unit_commitment.production_plan.greedy import dummy_response
+from unit_commitment.production_plan.dummy import dummy_response
 from unit_commitment.pydantic_models import (
     Payload,
     ResponsePowerPlant,

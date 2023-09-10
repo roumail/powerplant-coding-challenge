@@ -2,7 +2,9 @@ import typing as tp
 
 import pytest
 
-from unit_commitment.production_plan.greedy import calculate_production_plan
+from unit_commitment.production_plan.calculate_production_plan import (
+    calculate_production_plan,
+)
 
 if tp.TYPE_CHECKING:
     from unit_commitment.pydantic_models import Payload, ResponsePowerPlant

@@ -1,55 +1,47 @@
-from unit_commitment.pydantic_models import Payload, ResponsePowerPlant
+import typing as tp
+
+if tp.TYPE_CHECKING:
+    from unit_commitment.pydantic_models import Fuel, PowerPlant, ResponsePowerPlant
+
+PLANT_TO_FUEL_MAP = {"gasfired": "gas", "turbojet": "kerosine", "windturbine": "wind"}
 
 
-def calculate_production_plan(
-    payload: Payload, method: str = "dummy"
-) -> list[ResponsePowerPlant]:
-    if method == "dummy":
-        return dummy_response(payload)
-    elif method == "greedy":
-        breakpoint()
-        return allocate_power(payload.load, payload.fuels, payload.powerplants)
-    else:
-        raise ValueError("Invalid method specified")
+def calculate_fuel_cost(plant: "PowerPlant", fuels: "Fuel"):
+    fuel_type = PLANT_TO_FUEL_MAP.get(plant.type)
+    fuel_cost = getattr(fuels, fuel_type, 0)
 
+    if fuel_type == "wind":
+        return 0  # Wind power is free
 
-def dummy_response(payload: Payload) -> list[ResponsePowerPlant]:
-    return [
-        ResponsePowerPlant(name="windpark1", p=90.0),
-        ResponsePowerPlant(name="windpark2", p=21.6),
-        ResponsePowerPlant(name="gasfiredbig1", p=460.0),
-        ResponsePowerPlant(name="gasfiredbig2", p=338.4),
-        ResponsePowerPlant(name="gasfiredsomewhatsmaller", p=0.0),
-        ResponsePowerPlant(name="tj1", p=0.0),
-    ]
+    return fuel_cost / plant.efficiency
 
 
 def allocate_power(
-    load: int, fuels: dict[str, float], powerplants: list[dict[str, float]]
-) -> list[dict[str, float]]:
+    load: int, fuels: "Fuel", powerplants: list["PowerPlant"]
+) -> list[ResponsePowerPlant]:
     # Step 1: Sort Power Plants by Cost
+    plant_fuel_costs = {}
     for plant in powerplants:
-        fuel_cost = fuels[plant["type"]]
-        plant["cost_per_mwh"] = fuel_cost / plant["efficiency"]
-    powerplants.sort(key=lambda x: x["cost_per_mwh"])
+        plant_fuel_costs[plant.name] = calculate_fuel_cost(plant, fuels)
+    sorted_plants = sorted(powerplants, key=lambda x: plant_fuel_costs[x.name])
 
     # Initialize variables
     allocated_power = []
     remaining_load = load
 
     # Step 2: Fulfill Minimum Requirements
-    for plant in powerplants:
-        if plant["pmin"] > 0:
-            allocated_power.append({"name": plant["name"], "p": plant["pmin"]})
-            remaining_load -= plant["pmin"]
+    for plant in sorted_plants:
+        if plant.pmin > 0:
+            allocated_power.append(ResponsePowerPlant(name=plant.name, p=plant.pmin))
+            remaining_load -= plant.pmin
 
     # Step 3 and 4: Allocate Remaining Load and Iterate
     i = 0
-    while remaining_load > 0 and i < len(powerplants):
-        plant = powerplants[i]
-        additional_power = min(plant["pmax"] - allocated_power[i]["p"], remaining_load)
+    while remaining_load > 0 and i < len(sorted_plants):
+        plant = sorted_plants[i]
+        additional_power = min(plant.pmax - allocated_power[i].p, remaining_load)
 
-        allocated_power[i]["p"] += additional_power
+        allocated_power[i].p += additional_power
         remaining_load -= additional_power
 
         i += 1
