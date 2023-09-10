@@ -1,7 +1,9 @@
 import typing as tp
 
+from unit_commitment.pydantic_models import ResponsePowerPlant
+
 if tp.TYPE_CHECKING:
-    from unit_commitment.pydantic_models import Fuel, PowerPlant, ResponsePowerPlant
+    from unit_commitment.pydantic_models import Fuel, PowerPlant
 
 PLANT_TO_FUEL_MAP = {"gasfired": "gas", "turbojet": "kerosine", "windturbine": "wind"}
 
@@ -16,6 +18,8 @@ def calculate_fuel_cost(plant: "PowerPlant", fuels: "Fuel"):
     return fuel_cost / plant.efficiency
 
 
+# The power produced by each powerplant has to be a multiple of 0.1 Mw and
+# the sum of the power produced by all the powerplants together should equal the load.
 def allocate_power(
     load: int, fuels: "Fuel", powerplants: list["PowerPlant"]
 ) -> list[ResponsePowerPlant]:
@@ -40,10 +44,8 @@ def allocate_power(
     while remaining_load > 0 and i < len(sorted_plants):
         plant = sorted_plants[i]
         additional_power = min(plant.pmax - allocated_power[i].p, remaining_load)
-
         allocated_power[i].p += additional_power
         remaining_load -= additional_power
-
         i += 1
 
     # Check if all demand is met

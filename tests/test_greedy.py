@@ -11,14 +11,14 @@ if tp.TYPE_CHECKING:
 
 
 def validate_greedy_output(output: list["ResponsePowerPlant"], payload: "Payload"):
-    total_power = sum(plant["p"] for plant in output)
+    total_power = sum(plant.p for plant in output)
     assert total_power == payload.load  # Total power should match the load
 
     for plant in output:
-        name = plant["name"]
+        name = plant.name
         original_plant = next(p for p in payload.powerplants if p.name == name)
-        assert plant["p"] >= original_plant.pmin  # Should be above pmin
-        assert plant["p"] <= original_plant.pmax  # Should be below pmax
+        assert plant.p >= original_plant.pmin  # Should be above pmin
+        assert plant.p <= original_plant.pmax  # Should be below pmax
 
 
 def test_greedy_algorithm(payload: "Payload"):
