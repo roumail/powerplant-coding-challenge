@@ -1,3 +1,5 @@
+import typing as tp
+
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -34,6 +36,13 @@ class PowerPlant(BaseModel):
     efficiency: float
     pmin: int
     pmax: int
+    allowed_values: tp.ClassVar[list[str]] = ["gasfired", "turbojet", "windturbine"]
+
+    @field_validator("type")
+    def validate_type(cls, value):
+        if value not in cls.allowed_values:
+            raise ValueError(f"Plant types must be one of: {cls.allowed_values}")
+        return value
 
 
 class Payload(BaseModel):
