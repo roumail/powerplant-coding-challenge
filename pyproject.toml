@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "unit_commitment"
+version = "0.1.0"
+description = "Deploying a unit commitment solution via fastapi"
+authors = ["Rohail Taimour <rohail.taimour@gmail.com>"]
+
+[tool.poetry.scripts]
+production-plan-api = 'unit_commitment.run_app:main'
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.103.0"
+uvicorn = "0.23.2"
+pydantic = "^2.0.0"
+requests = "^2.22.0"
+loguru = "^0.7.0"
+python-dotenv = "^1.0.0"
+pydantic-settings = "^2.0.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+ipdb = "^0.13.0"
+isort = "^5.12.0"
+pre-commit = "^3.4.0"
+flake8 = "^6.1.0"
+pytest-cov = "^4.1.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.3.1"
+httpx = "^0.24.1"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+  \.toml
+  |\.sh
+  |\.git
+  |\.ini
+  |Dockerfile
+  |Jenkinfile
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
