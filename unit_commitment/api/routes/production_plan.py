@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.post("/productionplan", response_model=list[ResponsePowerPlant])
 async def production_plan(
-    payload: Payload, method: str = Query("dummy")
+    payload: Payload, method: str = Query("greedy")
 ) -> list[ResponsePowerPlant]:
     try:
         result = calculate_production_plan(payload, method)
